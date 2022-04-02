@@ -14,7 +14,7 @@ export interface settingInterface {
 
 export interface depTree {
   modules: any;
-  moduleByIds: any;
+  modulesById: any;
   chunks: any;
   nextModuleId: number;
   nextChunkId: number;
