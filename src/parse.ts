@@ -1,6 +1,7 @@
 import * as parser from "@babel/parser";
 import { File } from "@babel/types";
 import traverse from "@babel/traverse";
+import { Context } from "./type";
 
 // BlockStatement | BreakStatement | ContinueStatement | DebuggerStatement | DoWhileStatement |
 // EmptyStatement | ExpressionStatement | ForInStatement | ForStatement | FunctionDeclaration |
@@ -12,24 +13,20 @@ import traverse from "@babel/traverse";
 // TypeAlias | EnumDeclaration | TSDeclareFunction | TSInterfaceDeclaration | TSTypeAliasDeclaration |
 // TSEnumDeclaration | TSModuleDeclaration | TSImportEqualsDeclaration | TSExportAssignment | TSNamespaceExportDeclaration;
 
-interface contextProps {
-  requires?: any[];
-}
-
 export const parse = (source: string) => {
   const ast: File | undefined = parser.parse(source);
   if (!ast || typeof ast != "object")
     throw new Error("Source couldn't be parsed");
   // 定义每一个文件的上下文环境
-  const context: contextProps = {};
+  const context: Context = {};
   // 遍历每一个文件
   traverse(ast, {
     enter(path) {
       // 通过遍历AST 解析依赖的 模块
       if (
         path.node.type === "CallExpression" &&
-        path.node.callee.type === "Identifier" &&
-        path.node.callee.name === "require"
+        path.node.callee.type === "Identifier" && // 标识符
+        path.node.callee.name === "require" // 名称为 require
       ) {
         const params = path.node.arguments[0];
         context.requires = context.requires || [];
