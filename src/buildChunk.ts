@@ -12,11 +12,22 @@ export const buildChunks = (depTree: depTree) => {
   Object.keys(modules).forEach((key: string) => {
     const module = modules[key];
     const requiresMap: any = {};
+    console.log(module.requires);
+
     if (module.requires) {
       module.requires?.forEach((require: any, index: number) => {
-        requiresMap[require.name] = index;
+        let resIndex: number;
+        Object.keys(depTree.modulesById).forEach((key) => {
+          const module = depTree.modulesById[key];
+          if (module.fileName === module.fullName) {
+            resIndex = parseInt(key);
+          }
+        });
+        requiresMap[require.name] = resIndex;
       });
     }
+    console.log(requiresMap);
+
     moduleResult += `${module.id}: [function(require,module,exports){
       ${module.source}
     },${JSON.stringify(requiresMap)}],\n`;
@@ -32,9 +43,11 @@ export const buildChunks = (depTree: depTree) => {
         return require(mapping[relativePath])
       }
 
-      const localModule = {exports:{]}}
+      const localModule = {exports:{}}
 
       fn(localRequire, localModule, localModule.exports)
+      
+      return localModule.exports
     }
 
     require(0)

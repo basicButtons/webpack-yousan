@@ -7,7 +7,8 @@ import path = require("path");
 
 export const webpack = async function (options: webpackOptions) {
   let { context, moduleName, setting, callback } = options;
-  
+
+  // 判断输出文件
   const dist = setting.outputDirectory || __dirname;
 
   // assess the muduleName  if it isn't a fileName the set dirname to context

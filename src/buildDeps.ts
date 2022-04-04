@@ -33,7 +33,7 @@ const addModule = async (
     depTree.modulesById[module.id] = module;
     const source = await fs.readFile(filename, "utf-8");
     // 返回一个 文件（在webpack中 文件就是模块）中的 关键信息，包含依赖等
-    const deps = parse(source);
+    const deps = parse(source,context);
     // 为 devTree 上的模块
     module.requires = deps.requires || [];
     module.source = source;
