@@ -1,7 +1,6 @@
 import { webpackOptions, depTree, Context } from "./type";
 import { resolve } from "./resolve";
 import { parse } from "./parse";
-import { buildChunks } from "./buildChunk";
 import * as fs from "fs/promises";
 
 interface moduleType {
@@ -75,5 +74,5 @@ export const buildDeps = async function (
     chunkModules: {},
   };
   await addModule(depTree, context, moduleName, options);
-  buildChunks(depTree);
+  return depTree;
 };
