@@ -6,7 +6,7 @@ webpack({
   context: path.dirname(path.join(__dirname, "./a.js")),
   setting: {
     output: "bundle.js",
-    outputDirectory: "./dist",
+    outputDirectory: path.join(__dirname, "./dist"),
   },
   callback: (err, res) => {
     if (err) throw err;
