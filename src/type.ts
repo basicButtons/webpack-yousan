@@ -27,4 +27,5 @@ export interface Context {
   nameRange?: any;
   line?: number;
   column?: number;
+  fullName?: string;
 }

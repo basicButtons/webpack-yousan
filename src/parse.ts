@@ -1,4 +1,5 @@
 import * as parser from "@babel/parser";
+import * as Path from "path";
 import { File } from "@babel/types";
 import traverse from "@babel/traverse";
 import { Context } from "./type";
@@ -13,7 +14,7 @@ import { Context } from "./type";
 // TypeAlias | EnumDeclaration | TSDeclareFunction | TSInterfaceDeclaration | TSTypeAliasDeclaration |
 // TSEnumDeclaration | TSModuleDeclaration | TSImportEqualsDeclaration | TSExportAssignment | TSNamespaceExportDeclaration;
 
-export const parse = (source: string) => {
+export const parse = (source: string, dirname: string) => {
   const ast: File | undefined = parser.parse(source);
   if (!ast || typeof ast != "object")
     throw new Error("Source couldn't be parsed");
@@ -36,6 +37,7 @@ export const parse = (source: string) => {
           nameRange: path.node.arguments[0].range,
           line: path.node.loc.start.line,
           column: path.node.loc.start.column,
+          fullName: Path.join(dirname, parseString(params)),
         });
       }
     },
