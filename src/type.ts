@@ -20,3 +20,11 @@ export interface depTree {
   nextChunkId: number;
   chunkModules: any;
 }
+export interface Context {
+  id?: number;
+  requires?: any[];
+  name?: string;
+  nameRange?: any;
+  line?: number;
+  column?: number;
+}

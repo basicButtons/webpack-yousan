@@ -65,8 +65,8 @@ export const resolve = (context: string, identifier: string, options: any) => {
   const identArray: string[] = identifier.split("/");
   const contextArray = context;
   if (identArray[0] === "." || identArray[0] === ".." || identArray[0] == "") {
-    const pathname = "/" + join(contextArray, ...identArray);
-    return loadAsFile(pathname);
+    const res = path.join(context, identifier);
+    return res;
   }
   return path.join(context, identifier);
 };
